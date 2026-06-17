@@ -6,6 +6,10 @@ export interface Project {
   descriptions: Partial<Record<Language, string>>;
   architecturalStyle: string;
   floors: number;
+
+  // Istifadəçi tərəfindən daxil edilən mərtəbə sayı (smetada düz istifadə olunur)
+  floorCount?: number;
+
   areaSqm: number;
   basePriceUSD: number;
   bedrooms: number;
@@ -35,6 +39,7 @@ export const projectsData: Project[] = [
     descriptions: { AZ: "Cənub ərazisinə baxan lüks villa.", EN: "Luxurious villa with southern exposure.", AR: "فيلا فاخرة مع إطلالة جنوبية.", RU: "Роскошная вилла с южной экспозицией." },
     architecturalStyle: "Modern",
     floors: 2,
+    floorCount: 2,
     areaSqm: 450,
     basePriceUSD: 1228250,
     bedrooms: 3,

@@ -277,11 +277,20 @@ const getPackageTierTotalUSD = (tier: 'ekonom' | 'standart' | 'premium'): number
 // ─── SMETA CƝDVƝL ÜÇÜN ƝTRAFLIQLAR ───────────────────────────────────────
   const getCalculatedSmeta = () => {
     const totalArea = activeProject.areaSqm || 0;
+    const floorCount = Math.max(1, Number(activeProject.floorCount ?? activeProject.floors ?? 1) || 1);
     const targetMarket = comprehensiveMarketRates[currentLangKey] || comprehensiveMarketRates['az'];
+
+    // 1 → 2 mərtəbədə dam_örtüyü və logistika quantity-ni ~2x artırmaq
+    // Bunu ümumi qayda kimi: factor = floorCount
+    const floorFactor = floorCount;
 
     const items = Object.values(fullSmetaLedger).map((mat) => {
       let totalQuantity = Math.ceil(totalArea * mat.usage);
       if (mat.key === 'kombi_unit') totalQuantity = totalArea > 250 ? 2 : 1;
+      // Mərtəbə sayına görə artanlar
+      if (mat.key === 'roofing') totalQuantity = Math.ceil(totalArea * mat.usage * floorFactor);
+      if (mat.key === 'logistics_management') totalQuantity = Math.ceil(totalArea * mat.usage * floorFactor);
+
 
       const marketRatesForLang = targetMarket[mat.key as keyof typeof targetMarket];
       let safeRateUSD = typeof marketRatesForLang === 'number' ? marketRatesForLang : 0;

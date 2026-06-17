@@ -1,6 +1,6 @@
 // frontend/src/app/catalog/data.ts
 
-import { Language } from "@/context/LanguageContext";
+
 
 export interface LocalizedString {
   AZ: string;
@@ -22,10 +22,16 @@ export interface Project {
   description: LocalizedString | string;
   architecturalStyle: string;
   floors: number;
+
+  // NOTE: UI-da mərtəbə sayını sistem təxmin etməsin deyə istifadəçi daxil etməlidir.
+  // `floors`-dan geriyə uyğunluq üçün (mövcud data) fallback kimi istifadə edirik.
+  floorCount?: number;
+
   bedrooms?: number;
   areaSqm: number;
   basePriceUSD: number;
   thumbnail: string;
+
   view3D: string;
   sketch2D: string;
   gallery: GalleryType;
@@ -36,14 +42,41 @@ export interface Project {
     openKitchen: boolean;
     hasGarage?: boolean;
   };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Smeta inputları (Elektrik / Santexnika / İstilik)
+  // ─────────────────────────────────────────────────────────────────────────────
+  electric?: {
+    sockets: number;
+    switches: number;
+    lightPoints: number;
+    junctionBoxes: number;
+    lowVoltagePoints: number; // internet/TV/domofon/signalizasiya çıxışlarının cəmi
+  };
+
+  santex?: {
+    waterPoints: number;
+    drainPoints: number;
+    floorHeatingM2: number;
+  };
+
+  heat?: {
+    radiatorCount: number;
+    pipeLengthM: number;
+  };
 }
 
 // Projects mapped to local assets in frontend/public/projects/
 // thumbnail & view3D = exterior house image, sketch2D = floor plan (where available)
-export const projectsData: Project[] = [
+const projectsDataRaw: Project[] = [
+
+
   {
     id: "classic",
     name: { AZ: "Classic", EN: "Classic", RU: "Классический" },
+    electric: { sockets: 0, switches: 0, lightPoints: 0, junctionBoxes: 0, lowVoltagePoints: 0 },
+    santex: { waterPoints: 0, drainPoints: 0, floorHeatingM2: 0 },
+    heat: { radiatorCount: 0, pipeLengthM: 0 },
     description: { 
       AZ: "Klassik memarlıq üslubu ilə modern rahatlığı birləşdirən ideal ailə villası.",
       EN: "An ideal family villa combining classic architectural style with modern comfort.",
@@ -65,6 +98,7 @@ export const projectsData: Project[] = [
         size: 45, 
         dimensions: "45 m²" 
       },
+
       { 
         name: { AZ: "1-ci Mərtəbə: Yataq Otağı 1", EN: "1st Floor: Bedroom 1", RU: "1 этаж: Спальня 1" }, 
         size: 15, 
@@ -90,6 +124,9 @@ export const projectsData: Project[] = [
    {
      id: 2,
       name: { AZ: "Ardıç", EN: "Ardic", RU: "Ардич" },
+      electric: { sockets: 0, switches: 0, lightPoints: 0, junctionBoxes: 0, lowVoltagePoints: 0 },
+      santex: { waterPoints: 0, drainPoints: 0, floorHeatingM2: 0 },
+      heat: { radiatorCount: 0, pipeLengthM: 0 },
      description: { AZ: "Klassik və lüks 2 mərtəbəli modul villa.", EN: "A classic and luxury two-story modular villa.", RU: "Классическая и роскошная двухэтажная модульная вилла." },
      architecturalStyle: "Classic",
      floors: 2,
@@ -141,7 +178,7 @@ export const projectsData: Project[] = [
       ]
     },
    {
-id: "ihlamur" as any,
+id: "ihlamur", 
      name: { AZ: "Ihlamur", EN: "Ihlamur", RU: "Ihlamur" },
      description: { 
        AZ: "Bamboo və doğal materiallərlə lüks villa konsepti.",
@@ -178,7 +215,12 @@ id: "kamelya",
     view3D: "/projects/kamelya.png",
     sketch2D: "/projects/kamelya-plan.png",
     gallery: ["/projects/kamelya.png"],
+    electric: { sockets: 0, switches: 0, lightPoints: 0, junctionBoxes: 0, lowVoltagePoints: 0 },
+    santex: { waterPoints: 0, drainPoints: 0, floorHeatingM2: 0 },
+    heat: { radiatorCount: 0, pipeLengthM: 0 },
     layout2D: [
+
+
        { name: { AZ: "1-ci Mərtəbə: Salon", EN: "1st Floor: Living Room", RU: "1 этаж: Гостиная" }, size: 28, dimensions: "7.0m x 4.0m" },
        { name: { AZ: "1-ci Mərtəbə: Mətbəx", EN: "1st Floor: Kitchen", RU: "1 этаж: Кухня" }, size: 12, dimensions: "3.0m x 4.0m" },
        { name: { AZ: "1-ci Mərtəbə: Hamam", EN: "1st Floor: Bathroom", RU: "1 этаж: Ванная" }, size: 6, dimensions: "2.0m x 3.0m" },
