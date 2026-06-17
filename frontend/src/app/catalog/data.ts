@@ -667,10 +667,10 @@ layout2D: [
     floors: 2,
     areaSqm: 139,
     basePriceUSD: 135000,
-    thumbnail: "/projects/Makar.png",
-    view3D: "/projects/Makar.png",
+    thumbnail: "/projects/makar.png",
+    view3D: "/projects/makar.png",
     sketch2D: "/projects/makar-plan.png",
-    gallery: ["/projects/Makar.png"],
+    gallery: ["/projects/makar.png"],
     layout2D: [
       { name: { AZ: "1-ci Mərtəbə: Living Room (Salon)", EN: "1st Floor: Living Room", RU: "1 этаж: Гостиная" }, size: 30, dimensions: "6.0m x 5.0m" },
       { name: { AZ: "1-ci Mərtəbə: Kitchen (Mətbəx)", EN: "1st Floor: Kitchen", RU: "1 этаж: Кухня" }, size: 15, dimensions: "5.0m x 3.0m" },
